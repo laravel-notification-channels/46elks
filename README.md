@@ -90,13 +90,22 @@ The FortySixElksSMS have the following methods, all chainable.
 ### Available Message methods for sms
 
 
-``from($mixed)``. Accepts a string up to 11 characters or number. Sms will be sent with that name.
+``from($mixed)`` Accepts a string up to 11 characters or number. Sms will be sent with that name.
 
-``to($number)``. International phone number.
+``to($number)`` International phone number.
 
-``line($string)``. Every string in a line will be on its own row.
+``line($string)`` Every string in a line will be on its own row.
 
-``flash()``. Will set the message type to flash. Will not endup in sms inbox. See [This tweet](https://twitter.com/46elks/status/583183559420178432) to find out how it looks on an iphone.
+``flash()`` Will set the message type to flash. Will not endup in sms inbox. See [This tweet](https://twitter.com/46elks/status/583183559420178432) to find out how it looks on an iphone.
+
+``dryrun()`` Enable when you want to verify your API request without actually sending an SMS to a mobile phone.
+              No SMS message will be sent when this is enabled. 
+
+``whendelivered('http://localhost')`` This webhook URL will receive a POST request every time the delivery status changes. 
+
+``dontlog()`` Enable to avoid storing the message text in your history.
+               The other parameters will still be stored. 
+
 #### MMS
 To use MMS simply use `new FortySixElksMMS()` instead of `new FortySixElksSMS()`
 
