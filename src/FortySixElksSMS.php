@@ -28,7 +28,10 @@ class FortySixElksSMS extends FortySixElksMedia implements FortySixElksMediaInte
                     'from'     => $this->from,
                     'message'  => $this->getContent(),
                     'to'       => $this->phone_number,
-                    'flashsms' => (isset($this->payload['flash']) && $this->payload['flash']) ? 'yes' : 'no',
+                    'flashsms' => isset($this->payload['flash']) ? $this->payload['flash']: 'no',
+                    'dryrun' => isset($this->payload['dryrun']) ? $this->payload['dryrun']: 'no',
+                    'whendelivered' => isset($this->payload['flash']) ? $this->payload['flash']: null,
+                    'dontlog' => isset($this->payload['dontlog']) ? $this->payload['dontlog']: null,
                 ],
 
             ]);
@@ -46,8 +49,23 @@ class FortySixElksSMS extends FortySixElksMedia implements FortySixElksMediaInte
 
     public function flash()
     {
-        $this->payload['flash'] = true;
+        $this->payload['flash'] = "yes";
 
+        return $this;
+    }
+
+    public function dryRun(){
+        $this->payload['dryrun'] = "yes";
+        return $this;
+    }
+
+    public function whendelivered($url){
+        $this->payload['whendelivered'] = $url;
+        return $this;
+    }
+
+    public function dontLog(){
+        $this->payload['dontlog'] = "yes";
         return $this;
     }
 }
