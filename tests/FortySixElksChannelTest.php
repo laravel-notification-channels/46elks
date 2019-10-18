@@ -2,12 +2,9 @@
 
 namespace NotificationChannels\FortySixElks\Test;
 
-use Mockery;
-
-use Illuminate\Events\Dispatcher;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification;
-
+use Mockery;
 use NotificationChannels\FortySixElks\FortySixElksChannel;
 use NotificationChannels\FortySixElks\FortySixElksSMS;
 
@@ -30,7 +27,7 @@ class FortySixElksChannelTest extends \PHPUnit_Framework_TestCase
 
         $this->channel = new FortySixElksChannel($this->dispatcher);
 
-		$this->smsMessage = Mockery::mock(FortySixElksSMS::class);
+        $this->smsMessage = Mockery::mock(FortySixElksSMS::class);
 
         $this->notifiable = new TestNotifiable();
 
@@ -42,37 +39,33 @@ class FortySixElksChannelTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(FortySixElksChannel::class, $this->channel);
     }
 
-    public function testCanSendNotification(){
+    public function testCanSendNotification()
+    {
+        $this->smsMessage->shouldReceive('send')
+            ->once()
+            ->andReturn($this->smsMessage);
 
+        $this->notification->to46Elks($this->notifiable);
+        $response = $this->channel->send($this->notifiable, $this->notification);
 
-
-		$this->smsMessage->shouldReceive('send')
-			->once()
-			->andReturn($this->smsMessage);
-
-	    $this->notification->to46Elks($this->notifiable);
-		$response = $this->channel->send($this->notifiable, $this->notification);
-
-		$this->assertInstanceOf(FortySixElksSMS::class, $response);
-
-
+        $this->assertInstanceOf(FortySixElksSMS::class, $response);
     }
 }
 
 class TestNotifiable
 {
-	use Notifiable;
+    use Notifiable;
 }
 
 class TestNotification extends Notification
 {
+    public function __construct($message)
+    {
+        $this->message = $message;
+    }
 
-	public function __construct($message) {
-		$this->message =  $message;
-	}
-
-	public function to46Elks($notifiable)
-	{
-		return $this->message;
-	}
+    public function to46Elks($notifiable)
+    {
+        return $this->message;
+    }
 }
