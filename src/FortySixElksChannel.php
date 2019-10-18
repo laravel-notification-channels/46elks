@@ -31,8 +31,8 @@ class FortySixElksChannel
     {
         if (method_exists($notification, 'to46Elks')) {
             if ($media = $notification->to46Elks($notifiable)) {
-	            try {
-	               return $media->send();
+                try {
+                    return $media->send();
                 } catch (\Exception $e) {
                     $this->events->dispatch(new NotificationFailed($notifiable, $notification, get_class($this), ['exception' => $e]));
                 }
