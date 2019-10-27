@@ -1,7 +1,3 @@
-Here's the latest documentation on Laravel Notifications System: 
-
-https://laravel.com/docs/master/notifications
-
 # 46Elks notification channel for Laravel
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/laravel-notification-channels/46Elks.svg?style=flat-square)](https://packagist.org/packages/laravel-notification-channels/46Elks)
