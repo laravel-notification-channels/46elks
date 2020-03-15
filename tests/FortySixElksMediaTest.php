@@ -18,9 +18,10 @@ class FortySixElksMediaTest extends \PHPUnit_Framework_TestCase
 
         //test subject
         $this->assertEquals(
-           'test subject',
-           $class->subject('test subject')
-               ->getSubject());
+            'test subject',
+            $class->subject('test subject')
+               ->getSubject()
+        );
     }
 
     public function testMMSTest()
@@ -37,6 +38,7 @@ class FortySixElksMediaTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             'test subject',
             $class->subject('test subject')
-                ->getSubject());
+                ->getSubject()
+        );
     }
 }
