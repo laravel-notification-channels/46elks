@@ -7,7 +7,12 @@ use NotificationChannels\FortySixElks\Exceptions\CouldNotSendNotification;
 class FortySixElksSMS extends FortySixElksMedia implements FortySixElksMediaInterface
 {
     const ENDPOINT = 'https://api.46elks.com/a1/SMS';
+
     public $type = 'SMS';
+    protected $flash = 'no';
+    protected $dry = 'no';
+    protected $delivered = null;
+    protected $log = false;
 
     /**
      * FortySixElksSMS constructor.
@@ -28,10 +33,10 @@ class FortySixElksSMS extends FortySixElksMedia implements FortySixElksMediaInte
                     'from'     => $this->from,
                     'message'  => $this->getContent(),
                     'to'       => $this->phone_number,
-                    'flashsms' => isset($this->payload['flash']) ? $this->payload['flash']: 'no',
-                    'dryrun' => isset($this->payload['dryrun']) ? $this->payload['dryrun']: 'no',
-                    'whendelivered' => isset($this->payload['flash']) ? $this->payload['flash']: null,
-                    'dontlog' => isset($this->payload['dontlog']) ? $this->payload['dontlog']: null,
+                    'flashsms' => $this->flash,
+                    'dryrun'   => $this->dry,
+                    'whendelivered' => $this->delivered,
+                    'dontlog' => $this->log,
                 ],
 
             ]);
@@ -47,25 +52,44 @@ class FortySixElksSMS extends FortySixElksMedia implements FortySixElksMediaInte
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function flash()
     {
-        $this->payload['flash'] = "yes";
+        $this->flash = $this->payload['flash'] ?? 'yes';
 
         return $this;
     }
 
-    public function dryRun(){
-        $this->payload['dryrun'] = "yes";
+    /**
+     * @return $this
+     */
+    public function dry()
+    {
+        $this->dry = $this->payload['dryrun'] ?? 'yes';
+
         return $this;
     }
 
-    public function whendelivered($url){
-        $this->payload['whendelivered'] = $url;
+    /**
+     * @param  string $url
+     * @return $this
+     */
+    public function delivered($url)
+    {
+        $this->delivered = $this->payload['delivered'] ?? $url;
+
         return $this;
     }
 
-    public function dontLog(){
-        $this->payload['dontlog'] = "yes";
+    /**
+     * @return $this
+     */
+    public function dontLog()
+    {
+        $this->log = $this->payload['dontLog'] ?? "message";
+
         return $this;
     }
 }
