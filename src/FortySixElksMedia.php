@@ -15,7 +15,7 @@ class FortySixElksMedia
      * @var array
      */
     protected $payload = [
-        'lines'   => []
+        'lines'   => [],
     ];
 
     /**

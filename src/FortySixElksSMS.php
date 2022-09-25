@@ -30,13 +30,13 @@ class FortySixElksSMS extends FortySixElksMedia implements FortySixElksMediaInte
         try {
             $response = $this->client->request('POST', self::ENDPOINT, [
                 'form_params' => [
-                    'from'     => $this->from,
-                    'message'  => $this->getContent(),
-                    'to'       => $this->phone_number,
-                    'flashsms' => $this->flash,
-                    'dryrun'   => $this->dry,
+                    'from'          => $this->from,
+                    'message'       => $this->getContent(),
+                    'to'            => $this->phone_number,
+                    'flashsms'      => $this->flash,
+                    'dryrun'        => $this->dry,
                     'whendelivered' => $this->delivered,
-                    'dontlog' => $this->log,
+                    'dontlog'       => $this->log,
                 ],
 
             ]);
@@ -73,7 +73,8 @@ class FortySixElksSMS extends FortySixElksMedia implements FortySixElksMediaInte
     }
 
     /**
-     * @param  string $url
+     * @param string $url
+     *
      * @return $this
      */
     public function delivered($url)
@@ -88,7 +89,7 @@ class FortySixElksSMS extends FortySixElksMedia implements FortySixElksMediaInte
      */
     public function dontLog()
     {
-        $this->log = $this->payload['dontLog'] ?? "message";
+        $this->log = $this->payload['dontLog'] ?? 'message';
 
         return $this;
     }
