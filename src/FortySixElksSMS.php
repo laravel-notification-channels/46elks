@@ -11,7 +11,7 @@ class FortySixElksSMS extends FortySixElksMedia implements FortySixElksMediaInte
     public $type = 'SMS';
     protected $flash = 'no';
     protected $dry = 'no';
-    protected $delivered = null;
+    protected $whendelivered = null;
     protected $log = false;
 
     /**
@@ -35,7 +35,7 @@ class FortySixElksSMS extends FortySixElksMedia implements FortySixElksMediaInte
                     'to'            => $this->phone_number,
                     'flashsms'      => $this->flash,
                     'dryrun'        => $this->dry,
-                    'whendelivered' => $this->delivered,
+                    'whendelivered' => $this->whendelivered,
                     'dontlog'       => $this->log,
                 ],
 
@@ -77,9 +77,9 @@ class FortySixElksSMS extends FortySixElksMedia implements FortySixElksMediaInte
      *
      * @return $this
      */
-    public function delivered($url)
+    public function whendelivered($url)
     {
-        $this->delivered = $this->payload['delivered'] ?? $url;
+        $this->whendelivered = $this->payload['whendelivered'] ?? $url;
 
         return $this;
     }
