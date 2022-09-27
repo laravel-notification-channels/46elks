@@ -15,13 +15,6 @@ class FortySixElksMediaTest extends \PHPUnit_Framework_TestCase
         //test content
         $this->assertInstanceOf(FortySixElksSMS::class, $class->line('test line'));
         $this->assertContains('test', $class->getContent());
-
-        //test subject
-        $this->assertEquals(
-            'test subject',
-            $class->subject('test subject')
-               ->getSubject()
-        );
     }
 
     public function testMMSTest()
@@ -33,12 +26,5 @@ class FortySixElksMediaTest extends \PHPUnit_Framework_TestCase
         //test content
         $this->assertInstanceOf(FortySixElksMMS::class, $class->line('test line'));
         $this->assertContains('test', $class->getContent());
-
-        //test subject
-        $this->assertEquals(
-            'test subject',
-            $class->subject('test subject')
-                ->getSubject()
-        );
     }
 }

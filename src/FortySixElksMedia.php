@@ -16,7 +16,6 @@ class FortySixElksMedia
      */
     protected $payload = [
         'lines'   => [],
-        'subject' => '',
     ];
 
     /**
@@ -74,18 +73,6 @@ class FortySixElksMedia
     }
 
     /**
-     * @param $subject
-     *
-     * @return $this
-     */
-    public function subject($subject)
-    {
-        $this->payload['subject'] = $subject;
-
-        return $this;
-    }
-
-    /**
      * @param $phone_number
      *
      * @return $this
@@ -115,13 +102,5 @@ class FortySixElksMedia
     public function getContent()
     {
         return implode(PHP_EOL, $this->payload['lines']);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSubject()
-    {
-        return $this->payload['subject'];
     }
 }

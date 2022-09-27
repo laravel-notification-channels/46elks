@@ -7,7 +7,12 @@ use NotificationChannels\FortySixElks\Exceptions\CouldNotSendNotification;
 class FortySixElksSMS extends FortySixElksMedia implements FortySixElksMediaInterface
 {
     const ENDPOINT = 'https://api.46elks.com/a1/SMS';
+
     public $type = 'SMS';
+    protected $flash = 'no';
+    protected $dry = 'no';
+    protected $whendelivered = null;
+    protected $log = false;
 
     /**
      * FortySixElksSMS constructor.
@@ -25,10 +30,13 @@ class FortySixElksSMS extends FortySixElksMedia implements FortySixElksMediaInte
         try {
             $response = $this->client->request('POST', self::ENDPOINT, [
                 'form_params' => [
-                    'from'     => $this->from,
-                    'message'  => $this->getContent(),
-                    'to'       => $this->phone_number,
-                    'flashsms' => (isset($this->payload['flash']) && $this->payload['flash']) ? 'yes' : 'no',
+                    'from'          => $this->from,
+                    'message'       => $this->getContent(),
+                    'to'            => $this->phone_number,
+                    'flashsms'      => $this->flash,
+                    'dryrun'        => $this->dry,
+                    'whendelivered' => $this->whendelivered,
+                    'dontlog'       => $this->log,
                 ],
 
             ]);
@@ -44,9 +52,44 @@ class FortySixElksSMS extends FortySixElksMedia implements FortySixElksMediaInte
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function flash()
     {
-        $this->payload['flash'] = true;
+        $this->flash = $this->payload['flash'] ?? 'yes';
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function dry()
+    {
+        $this->dry = $this->payload['dryrun'] ?? 'yes';
+
+        return $this;
+    }
+
+    /**
+     * @param string $url
+     *
+     * @return $this
+     */
+    public function whendelivered($url)
+    {
+        $this->whendelivered = $this->payload['whendelivered'] ?? $url;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function dontLog()
+    {
+        $this->log = $this->payload['dontLog'] ?? 'message';
 
         return $this;
     }
