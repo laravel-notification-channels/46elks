@@ -12,7 +12,7 @@ class FortySixElksSMS extends FortySixElksMedia implements FortySixElksMediaInte
     protected $flash = 'no';
     protected $dry = 'no';
     protected $whendelivered = null;
-    protected $log = false;
+    protected $log = null;
 
     /**
      * FortySixElksSMS constructor.
