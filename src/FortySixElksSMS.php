@@ -10,9 +10,9 @@ class FortySixElksSMS extends FortySixElksMedia implements FortySixElksMediaInte
 
     public $type = 'SMS';
     protected $flash = 'no';
-    protected $dry = 'no';
+    protected $dryrun = 'no';
     protected $whendelivered = null;
-    protected $log = false;
+    protected $dontlog = null;
 
     /**
      * FortySixElksSMS constructor.
@@ -34,9 +34,9 @@ class FortySixElksSMS extends FortySixElksMedia implements FortySixElksMediaInte
                     'message'       => $this->getContent(),
                     'to'            => $this->phone_number,
                     'flashsms'      => $this->flash,
-                    'dryrun'        => $this->dry,
+                    'dryrun'        => $this->dryrun,
                     'whendelivered' => $this->whendelivered,
-                    'dontlog'       => $this->log,
+                    'dontlog'       => $this->dontlog,
                 ],
 
             ]);
@@ -65,9 +65,9 @@ class FortySixElksSMS extends FortySixElksMedia implements FortySixElksMediaInte
     /**
      * @return $this
      */
-    public function dry()
+    public function dryrun()
     {
-        $this->dry = $this->payload['dryrun'] ?? 'yes';
+        $this->dryrun = $this->payload['dryrun'] ?? 'yes';
 
         return $this;
     }
@@ -87,9 +87,9 @@ class FortySixElksSMS extends FortySixElksMedia implements FortySixElksMediaInte
     /**
      * @return $this
      */
-    public function dontLog()
+    public function dontlog()
     {
-        $this->log = $this->payload['dontLog'] ?? 'message';
+        $this->dontlog = $this->payload['dontlog'] ?? 'message';
 
         return $this;
     }
