@@ -36,7 +36,7 @@ class FortySixElksSMS extends FortySixElksMedia implements FortySixElksMediaInte
                     'flashsms'      => $this->flash,
                     'dryrun'        => $this->dry,
                     'whendelivered' => $this->whendelivered,
-                    'dontlog'       => $this->log,
+                    'dontlog'       => $this->log ? $this->log : '',
                 ],
 
             ]);
