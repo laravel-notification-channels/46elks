@@ -64,6 +64,8 @@ You will find your username and password at https://46elks.se/account
 
 To use this channel simply create a notification that has the following content:
 ```
+    use NotificationChannels\FortySixElks\FortySixElksChannel;
+    use NotificationChannels\FortySixElks\FortySixElksSMS;
 
     public function via($notifiable)
     {
@@ -77,7 +79,9 @@ To use this channel simply create a notification that has the following content:
 	        ->line('Testsms')
 	        ->line('Olle')
 	        ->to('+46762216234')
-	        ->from('Emil');
+	        ->from('Emil')
+            // -dry()
+            ->send();
     }
 ```
 ### Available mediums
@@ -94,8 +98,9 @@ The FortySixElksSMS have the following methods, all chainable.
 
 ``flash()`` Will set the message type to flash. Will not endup in sms inbox. See [This tweet](https://twitter.com/46elks/status/583183559420178432) to find out how it looks on an iphone.
 
-``dryrun()`` Enable when you want to verify your API request without actually sending an SMS to a mobile phone.
-              No SMS message will be sent when this is enabled. 
+``dry()`` Enable when you want to verify your API request without actually sending an SMS to a mobile phone.
+            No SMS message will be sent when this is enabled. To be able inspect a dry() request you need to
+            send your message to +4670000000 then you can inspect it at [https://46elks.com/logs](https://46elks.com/logs)
 
 ``whendelivered('http://localhost')`` This webhook URL will receive a POST request every time the delivery status changes. 
 
