@@ -80,8 +80,7 @@ To use this channel simply create a notification that has the following content:
 	        ->line('Olle')
 	        ->to('+46762216234')
 	        ->from('Emil')
-            // -dry()
-            ->send();
+            	// -dry()
     }
 ```
 ### Available mediums
