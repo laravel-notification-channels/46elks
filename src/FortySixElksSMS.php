@@ -32,8 +32,7 @@ class FortySixElksSMS extends FortySixElksMedia implements FortySixElksMediaInte
                         'to'            => $this->phone_number,
                         'message'       => $this->getContent(),
                     ]
-                )
-
+                ),
             ]);
         } catch (\GuzzleHttp\Exception\BadResponseException $e) {
             $response = $e->getResponse();
