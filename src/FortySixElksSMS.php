@@ -8,17 +8,15 @@ class FortySixElksSMS extends FortySixElksMedia implements FortySixElksMediaInte
 {
     const ENDPOINT = 'https://api.46elks.com/a1/SMS';
 
-    public $type = 'SMS';
-    protected $flash = 'no';
-    protected $dry = 'no';
-    protected $whendelivered = null;
-    protected $log = false;
+    protected array $form_params;
 
     /**
      * FortySixElksSMS constructor.
      */
     public function __construct()
     {
+        $this->form_params = [];
+
         return parent::__construct();
     }
 
@@ -29,16 +27,14 @@ class FortySixElksSMS extends FortySixElksMedia implements FortySixElksMediaInte
     {
         try {
             $response = $this->client->request('POST', self::ENDPOINT, [
-                'form_params' => [
-                    'from'          => $this->from,
-                    'message'       => $this->getContent(),
-                    'to'            => $this->phone_number,
-                    'flashsms'      => $this->flash,
-                    'dryrun'        => $this->dry,
-                    'whendelivered' => $this->whendelivered,
-                    'dontlog'       => $this->log ? $this->log : '',
-                ],
-
+                'form_params' => array_merge(
+                    $this->form_params,
+                    [
+                        'from'    => $this->from,
+                        'to'      => $this->phone_number,
+                        'message' => $this->getContent(),
+                    ]
+                ),
             ]);
         } catch (\GuzzleHttp\Exception\BadResponseException $e) {
             $response = $e->getResponse();
@@ -53,21 +49,33 @@ class FortySixElksSMS extends FortySixElksMedia implements FortySixElksMediaInte
     }
 
     /**
-     * @return $this
+     * @return array
      */
-    public function flash()
+    public function prepareParams(string $key, mixed $value): FortySixElksSMS
     {
-        $this->flash = $this->payload['flash'] ?? 'yes';
+        $this->form_params[$key] = $value;
 
         return $this;
     }
 
     /**
-     * @return $this
+     * @return void
      */
-    public function dry()
+    public function flash(string $value = 'yes'): FortySixElksSMS
     {
-        $this->dry = $this->payload['dryrun'] ?? 'yes';
+        self::prepareParams(key: 'flash', value: $value);
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return FortySixElksSMS
+     */
+    public function dry(string $value = 'yes'): FortySixElksSMS
+    {
+        self::prepareParams(key: 'dryrun', value: $value);
 
         return $this;
     }
@@ -75,21 +83,21 @@ class FortySixElksSMS extends FortySixElksMedia implements FortySixElksMediaInte
     /**
      * @param string $url
      *
-     * @return $this
+     * @return FortySixElksSMS
      */
-    public function whendelivered($url)
+    public function whenDelivered(string $url): FortySixElksSMS
     {
-        $this->whendelivered = $this->payload['whendelivered'] ?? $url;
+        self::prepareParams(key: 'whendelivered', value: $url);
 
         return $this;
     }
 
     /**
-     * @return $this
+     * @return FortySixElksSMS
      */
-    public function dontLog()
+    public function dontLog(): FortySixElksSMS
     {
-        $this->log = $this->payload['dontLog'] ?? 'message';
+        self::prepareParams(key: 'dontlog', value: 'message');
 
         return $this;
     }

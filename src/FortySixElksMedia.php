@@ -19,6 +19,11 @@ class FortySixElksMedia
     ];
 
     /**
+     * @var GuzzleHttp\Client
+     */
+    protected $client;
+
+    /**
      * @var int
      */
     protected $phone_number;
