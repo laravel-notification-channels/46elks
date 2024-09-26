@@ -30,8 +30,8 @@ class FortySixElksSMS extends FortySixElksMedia implements FortySixElksMediaInte
                 'form_params' => array_merge(
                     $this->form_params,
                     [
-                        'from' => $this->from,
-                        'to' => $this->phone_number,
+                        'from'    => $this->from,
+                        'to'      => $this->phone_number,
                         'message' => $this->getContent(),
                     ]
                 ),
