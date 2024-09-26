@@ -15,6 +15,8 @@ class FortySixElksSMS extends FortySixElksMedia implements FortySixElksMediaInte
      */
     public function __construct()
     {
+        $this->form_params = [];
+
         return parent::__construct();
     }
 
@@ -28,9 +30,9 @@ class FortySixElksSMS extends FortySixElksMedia implements FortySixElksMediaInte
                 'form_params' => array_merge(
                     $this->form_params,
                     [
-                        'from'          => $this->from,
-                        'to'            => $this->phone_number,
-                        'message'       => $this->getContent(),
+                        'from' => $this->from,
+                        'to' => $this->phone_number,
+                        'message' => $this->getContent(),
                     ]
                 ),
             ]);
