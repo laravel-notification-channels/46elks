@@ -23,16 +23,23 @@ With more endpoints to come. Feel free to contribute.
 
 ## Contents
 
-- [Installation](#installation)
-	- [Setting up the 46Elks service](#setting-up-the-46Elks-service)
-- [Usage](#usage)
-	- [Available Message methods](#available-message-methods)
-- [Changelog](#changelog)
-- [Testing](#testing)
-- [Security](#security)
-- [Contributing](#contributing)
-- [Credits](#credits)
-- [License](#license)
+- [46Elks notification channel for Laravel](#46elks-notification-channel-for-laravel)
+  - [Contents](#contents)
+  - [Installation](#installation)
+    - [Setting up the 46Elks service](#setting-up-the-46elks-service)
+  - [Usage](#usage)
+    - [Available mediums](#available-mediums)
+      - [SMS](#sms)
+    - [Available Message methods for sms](#available-message-methods-for-sms)
+      - [MMS](#mms)
+    - [Available Message methods](#available-message-methods)
+    - [Error handling](#error-handling)
+  - [Changelog](#changelog)
+  - [Testing](#testing)
+  - [Security](#security)
+  - [Contributing](#contributing)
+  - [Credits](#credits)
+  - [License](#license)
 
 
 ## Installation
@@ -45,7 +52,7 @@ composer require laravel-notification-channels/46elks
 
 
 add the following to your config/services.php
-```
+``` php
 	'46elks' => [
 		'username' => env('FORTY_SIX_ELKS_USERNAME'),
 		'password' => env('FORTY_SIX_ELKS_PASSWORD'),
@@ -63,25 +70,44 @@ You will find your username and password at https://46elks.se/account
 
 
 To use this channel simply create a notification that has the following content:
+``` php
+use NotificationChannels\FortySixElks\FortySixElksChannel;
+use NotificationChannels\FortySixElks\FortySixElksSMS;
+
+public function via($notifiable)
+{
+    return [FortySixElksChannel::class];
+}
+
+
+public function to46Elks($notifiable)
+{
+    return (new FortySixElksSMS())
+        ->line('Testsms')
+        ->line('Olle')
+        ->to('+46701234567')
+        ->from('Emil')
+        // ->flash() - Optional
+        // ->whenDelivered(URL) - Optional
+        // ->dontLog() - Optional
+        // ->dry() - Optional
+}
 ```
-    use NotificationChannels\FortySixElks\FortySixElksChannel;
-    use NotificationChannels\FortySixElks\FortySixElksSMS;
 
-    public function via($notifiable)
-    {
-        return [FortySixElksChannel::class];
-    }
+Another example without the notification implementation.
+``` php
+use NotificationChannels\FortySixElks\FortySixElksSMS;
 
- 
-    public function to46Elks($notifiable)
-    {
-        return (new FortySixElksSMS())
-	        ->line('Testsms')
-	        ->line('Olle')
-	        ->to('+46762216234')
-	        ->from('Emil')
-            	// -dry()
-    }
+(new FortySixElksSMS())
+    ->line('Testsms')
+    ->line('Olle')
+    ->to('+46701234567')
+    ->from('Emil')
+    // ->flash() - Optional
+    // ->whenDelivered(URL) - Optional
+    // ->dontLog() - Optional
+    // ->dry() - Optional
+    ->send();
 ```
 ### Available mediums
 #### SMS
@@ -89,7 +115,7 @@ The FortySixElksSMS have the following methods, all chainable.
 ### Available Message methods for sms
 
 
-``from($mixed)`` Accepts a string up to 11 characters or number. Sms will be sent with that name.
+``from($mixed)`` Accepts a string containing A-Z, a-z, 0-9 up to 11 characters or numbers. Space is not supported. Sms will be sent with that name.
 
 ``to($number)`` International phone number.
 
@@ -101,9 +127,9 @@ The FortySixElksSMS have the following methods, all chainable.
             No SMS message will be sent when this is enabled. To be able inspect a dry() request you need to
             send your message to +4670000000 then you can inspect it at [https://46elks.com/logs](https://46elks.com/logs)
 
-``whendelivered('http://localhost')`` This webhook URL will receive a POST request every time the delivery status changes. 
+``whenDelivered('http://localhost.se/ping')`` This webhook URL will receive a POST request every time the delivery status changes. 
 
-``dontlog()`` Enable to avoid storing the message text in your history.
+``dontLog()`` Enable to avoid storing the message text in your history.
                The other parameters will still be stored. 
 
 #### MMS
@@ -130,7 +156,7 @@ If for any reason there would be an error when sending a notification it will fi
 `Illuminate\Notifications\Events\NotificationFailed` event. You can then listen for that.
 
 Example:
-```
+``` php
 Event::listen(NotificationFailed::class, function($event){
     info('Error while sending sms');
 });
