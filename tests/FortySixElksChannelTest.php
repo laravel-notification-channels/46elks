@@ -8,7 +8,7 @@ use Mockery;
 use NotificationChannels\FortySixElks\FortySixElksChannel;
 use NotificationChannels\FortySixElks\FortySixElksSMS;
 
-class FortySixElksChannelTest extends \PHPUnit_Framework_TestCase
+class FortySixElksChannelTest extends \PHPUnit\Framework\TestCase
 {
     protected $dispatcher;
 
@@ -20,7 +20,7 @@ class FortySixElksChannelTest extends \PHPUnit_Framework_TestCase
 
     protected $smsMessage;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->dispatcher = new \Illuminate\Events\Dispatcher();

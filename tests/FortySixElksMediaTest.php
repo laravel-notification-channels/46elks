@@ -5,7 +5,7 @@ namespace NotificationChannels\FortySixElks\Test;
 use NotificationChannels\FortySixElks\FortySixElksMMS;
 use NotificationChannels\FortySixElks\FortySixElksSMS;
 
-class FortySixElksMediaTest extends \PHPUnit_Framework_TestCase
+class FortySixElksMediaTest extends \PHPUnit\Framework\TestCase
 {
     public function testSMSTest()
     {
@@ -14,7 +14,7 @@ class FortySixElksMediaTest extends \PHPUnit_Framework_TestCase
 
         //test content
         $this->assertInstanceOf(FortySixElksSMS::class, $class->line('test line'));
-        $this->assertContains('test', $class->getContent());
+        $this->assertStringContainsString('test', $class->getContent());
     }
 
     public function testMMSTest()
@@ -25,6 +25,6 @@ class FortySixElksMediaTest extends \PHPUnit_Framework_TestCase
 
         //test content
         $this->assertInstanceOf(FortySixElksMMS::class, $class->line('test line'));
-        $this->assertContains('test', $class->getContent());
+        $this->assertStringContainsString('test', $class->getContent());
     }
 }
